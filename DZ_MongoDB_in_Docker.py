@@ -7,6 +7,7 @@ from pymongo.errors import ServerSelectionTimeoutError, InvalidOperation
 
 NUMBER_OF_RECORDS = 10
 
+
 def seed_database(db, number):
     """
     Seed the database with a given NUMBER_OF_RECORDS.
@@ -47,7 +48,6 @@ def seed_database(db, number):
             client.close()
             return
 
-
     print(f"{NUMBER_OF_RECORDS} recordes were added to the database")
 
 
@@ -60,7 +60,7 @@ def print_all(db):
 
     Returns:
     - None
-    """    
+    """
     try:
         result = db.cats.find({})
         for el in result:
@@ -68,6 +68,7 @@ def print_all(db):
     except ServerSelectionTimeoutError:
         print("Unable to connect to the server.")
         client.close()
+
 
 def print_one(db):
     """
@@ -80,7 +81,7 @@ def print_one(db):
     None
     """
     pet_name = input("Enter pet name: ").title()
-    
+
     try:
         result = db.cats.find_one({"name": pet_name})
         if result is None:
@@ -91,6 +92,7 @@ def print_one(db):
         print("Unable to connect to the server.")
         client.close()
 
+
 def update_age(db):
     """
     Update the age of a cat in the database.
@@ -100,7 +102,7 @@ def update_age(db):
 
     Returns:
         None
-    """    
+    """
     try:
         pet_name = input("Enter pet name: ").title()
         new_age = int(input("Enter new age: "))
@@ -117,6 +119,7 @@ def update_age(db):
     except ServerSelectionTimeoutError:
         print("Unable to connect to the server.")
         client.close()
+
 
 def add_feature(db):
     """
@@ -140,6 +143,7 @@ def add_feature(db):
     except ServerSelectionTimeoutError:
         print("Unable to connect to the server.")
 
+
 def delete_record(db):
     """
     Function to delete a record from the database based on the provided pet name.
@@ -162,16 +166,17 @@ def delete_record(db):
         print("Unable to connect to the server.")
         client.close()
 
+
 def delete_all_records(db):
     """
-	Function to delete all records in the given database.
+    Function to delete all records in the given database.
 
-	Args:
-	    db: The database to delete records from.
+    Args:
+        db: The database to delete records from.
 
-	Returns:
-	    None
-	"""
+    Returns:
+        None
+    """
 
     try:
         result = db.cats.find({})
@@ -187,13 +192,14 @@ def delete_all_records(db):
     except ServerSelectionTimeoutError:
         print("Unable to connect to the server.")
 
+
 if __name__ == "__main__":
     # connecting to a running docker container
-    uri = 'mongodb://localhost:27015/'
-    client = MongoClient(uri, server_api=ServerApi('1'))
+    uri = "mongodb://localhost:27015/"
+    client = MongoClient(uri, server_api=ServerApi("1"))
     db = client.module_06
 
-    #performing tasks one-by-one
+    # performing tasks one-by-one
     seed_database(db, NUMBER_OF_RECORDS)
 
     print_all(db)
@@ -208,9 +214,8 @@ if __name__ == "__main__":
 
     delete_all_records(db)
 
-    #closing the connection
+    # closing the connection
     try:
         client.close()
     except InvalidOperation:
         print("Client already closed")
-    
